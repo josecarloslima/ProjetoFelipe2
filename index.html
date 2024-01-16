@@ -9,14 +9,20 @@
 </head>
 <body>
     <header>
-        <h1>As 20 mil léguas Submarinas.</h1>
-        <p>Um estudo do caso apresentado a Associação dos Aventureiros pelo Sr Julio Verne documentado pelo pesquisador das artes gráficas e comunicacionais Felipe Cortatesi com auxílio do técnico em comunicação diferencial José Carlos Lima.</p>
+        <h1>As 20 mil léguas submarinas.</h1>
     </header>
-    <div>
-        <h2>navegação</h2>
+    <div class="navbar">
+        <div class="menu-toggle" onclick="toggleMenu()">Navegação</div>
+        <ul class="nav-list" id="navList">
+            <li><a href="#">Página 1</a></li>
+            <li><a href="#">Página 2</a></li>
+            <li><a href="#">Página 3</a></li>
+        </ul>
     </div>
-    <div>
-        <h2>texto</h2>
+    <div id="historia-container">
+        <h2 id="titulo">Caso 1406</h2>
+        <p id="texto">Um estudo do caso apresentado a Associação dos Aventureiros pelo Sr Julio Verne documentado pelo pesquisador das artes gráficas e comunicacionais Felipe Cortatesi com auxílio do técnico em comunicação diferencial José Carlos Lima.</p>
+        <div id="escolhas-container"></div>
     </div>
 
     <script src="logica.js"></script>

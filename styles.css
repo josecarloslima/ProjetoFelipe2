@@ -3,14 +3,103 @@ body {
     color: #23282b;
     height: 100vh;
     margin: 10px;
+    padding: 10px;
+    border: none;
     background-color: antiquewhite;
-    padding-top: 40px;
+    padding-top: 20px;   
+}
+
+h1,
+h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 p,
 h2 {
     font-style: italic;
     font-weight: lighter;
+}
+
+p {
+    line-height: 1.8rem;
+}
+
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar .menu-toggle {
+    cursor: pointer;
+    color: white;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: none;
+    display: none;
+    float: right;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.navbar li {
+    display: inline-block;
+}
+
+.navbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+@media screen and (max-width: 600px) {
+    .navbar .menu-toggle {
+        display: block;
+    }
+
+    .navbar ul {
+        display: none;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar ul.show {
+        display: block;
+    }
+
+    .navbar li {
+        width: 100%;
+    }
+}
+
+#historia-container {
+    background-color: whitesmoke;
+    color: rgba(34, 32, 32, 0.823);
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    border-radius: 20px 20px 0 0;
+    padding: 15px;
+}
+
+#escolhas-container button {
+    display: block;
+    margin-top: 10px;
 }
 
 #creditos {
