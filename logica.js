@@ -1,63 +1,10 @@
-function toggleMenu() {
-    var navList = document.getElementById("navList");
-    navList.classList.toggle("show");
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const inicioBtn = document.getElementById("inicio-btn");
 
-// Definição dos blocos da história
-const blocosHistoria = textoHistoria;
-
-// Função para exibir o bloco inicial
-function iniciarHistoria() {
-    exibirBloco('Caso1406');
-}
-
-// Função para exibir um bloco da história
-function exibirBloco(numeroBloco) {
-    const bloco = blocosHistoria[numeroBloco];
-
-    document.getElementById('titulo').innerText = bloco.titulo;
-    document.getElementById('texto').innerText = bloco.texto;
-
-    const escolhasContainer = document.getElementById('escolhas-container');
-    escolhasContainer.innerHTML = '';
-
-    bloco.escolhas.forEach((escolha) => {
-        const botaoEscolha = document.createElement('button');
-        botaoEscolha.innerText = escolha.texto;
-        botaoEscolha.addEventListener('click', () => escolher(escolha));
-        escolhasContainer.appendChild(botaoEscolha);
+    inicioBtn.addEventListener("click", function () {
+        exibirBlocoDeHistoria("BlocoInicial");
     });
-}
-
-// Função para processar a escolha do jogador
-function escolher(escolha) {
-    pontos += escolha.valor;
-
-    if (escolha.destino) {
-        exibirBloco(escolha.destino);
-    } else {
-        exibirFinal();
-    }
-}
-
-// Função para exibir o bloco final com base nos pontos
-function exibirFinal() {
-    let finalMensagem = '';
-
-    if (pontos >= 10) {
-        finalMensagem = 'Você obteve um final incrível!';
-    } else if (pontos >= 5) {
-        finalMensagem = 'Você obteve um final intermediário.';
-    } else {
-        finalMensagem = 'Você obteve um final básico.';
-    }
-
-    document.getElementById('titulo').innerText = 'Fim da História';
-    document.getElementById('texto').innerText = finalMensagem;
-
-    const escolhasContainer = document.getElementById('escolhas-container');
-    escolhasContainer.innerHTML = '<button onclick="iniciarHistoria()">Recomeçar</button>';
-}
+});
 
 // Função para alternar a visibilidade do menu de navegação em telas menores
 function toggleMenu() {
@@ -65,6 +12,37 @@ function toggleMenu() {
     navList.classList.toggle("show");
 }
 
-// Inicie a história quando a página carregar
-document.addEventListener('DOMContentLoaded', iniciarHistoria);
+let lealdadeAtual = "neutra"; // Inicializa a lealdade do jogador
 
+function exibirBlocoDeHistoria(titulo) {
+    const tituloElemento = document.getElementById("titulo");
+    const textoElemento = document.getElementById("texto");
+
+    tituloElemento.textContent = blocosDeHistoria[titulo].titulo;
+    textoElemento.textContent = blocosDeHistoria[titulo].texto;
+
+    exibirEscolhasDoBloco(titulo);
+}
+
+function exibirEscolhasDoBloco(titulo) {
+    const escolhasDoBloco = blocosDeHistoria[titulo].escolhas;
+    const escolhasContainer = document.getElementById("escolhas-container");
+
+    escolhasContainer.innerHTML = "";
+
+    for (const [tituloEscolha, escolha] of Object.entries(escolhasDoBloco)) {
+        adicionarEscolha(tituloEscolha, escolha);
+    }
+}
+
+function adicionarEscolha(titulo, escolha) {
+    const escolhaButton = document.createElement("button");
+    escolhaButton.textContent = titulo;
+    escolhaButton.addEventListener("click", function () {
+        lealdadeAtual = escolha.lealdade; // Atualiza a lealdade com base na escolha
+        const proximoBloco = escolha.lealdade === lealdadeAtual ? titulo : "Padrao";
+        exibirBlocoDeHistoria(proximoBloco);
+    });
+
+    document.getElementById("escolhas-container").appendChild(escolhaButton);
+}
