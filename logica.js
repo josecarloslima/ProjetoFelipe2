@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inicioBtn = document.getElementById("inicio-btn");
 
     inicioBtn.addEventListener("click", function () {
+        resetarPlacar(); // Reinicia o placar ao começar a história
         exibirBlocoDeHistoria("BlocoInicial");
     });
 });
@@ -12,7 +13,13 @@ function toggleMenu() {
     navList.classList.toggle("show");
 }
 
-let lealdadeAtual = "neutra"; // Inicializa a lealdade do jogador
+// Restaura o placar para o estado inicial
+function resetarPlacar() {
+    lealdadeAtual = "neutra";
+    contagemEscolhas = { leal: 0, neutra: 0, antagonista: 0 };
+}
+
+let contagemEscolhas = { leal: 0, neutra: 0, antagonista: 0 }; // Contagem das escolhas
 
 function exibirBlocoDeHistoria(titulo) {
     const tituloElemento = document.getElementById("titulo");
@@ -31,7 +38,9 @@ function exibirEscolhasDoBloco(titulo) {
     escolhasContainer.innerHTML = "";
 
     for (const [tituloEscolha, escolha] of Object.entries(escolhasDoBloco)) {
-        adicionarEscolha(tituloEscolha, escolha);
+        if (escolha.categoria !== "moral" || escolha.lealdade === determinarEscolhaMoral()) {
+            adicionarEscolha(tituloEscolha, escolha);
+        }
     }
 }
 
@@ -40,9 +49,32 @@ function adicionarEscolha(titulo, escolha) {
     escolhaButton.textContent = titulo;
     escolhaButton.addEventListener("click", function () {
         lealdadeAtual = escolha.lealdade; // Atualiza a lealdade com base na escolha
-        const proximoBloco = escolha.lealdade === lealdadeAtual ? titulo : "Padrao";
+        contagemEscolhas[lealdadeAtual]++; // Incrementa a contagem da escolha
+
+        // Atualiza o placar
+        const placar = determinarEscolhaMoral();
+        console.log("Placar Atual: " + placar);
+
+        const proximoBloco = escolha.lealdade === lealdadeAtual ? escolha.proximoBloco : "Padrao";
         exibirBlocoDeHistoria(proximoBloco);
     });
 
     document.getElementById("escolhas-container").appendChild(escolhaButton);
 }
+
+// Determina a escolha moral com base na contagem das escolhas
+function determinarEscolhaMoral() {
+    const { leal, neutra, antagonista } = contagemEscolhas;
+
+    if (leal >= neutra && leal >= antagonista) {
+        return "leal";
+    } else if (neutra >= leal && neutra >= antagonista) {
+        return "neutra";
+    } else {
+        return "antagonista";
+    }
+}
+
+
+
+
