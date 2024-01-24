@@ -66,15 +66,13 @@ function adicionarEscolha(titulo, escolha) {
 function determinarEscolhaMoral() {
     const { leal, neutra, antagonista } = contagemEscolhas;
 
-    if (leal >= neutra && leal >= antagonista) {
-        return "leal";
-    } else if (neutra >= leal && neutra >= antagonista) {
+    if (neutra >= leal && neutra >= antagonista) {
         return "neutra";
-    } else {
+    } else if (leal >= antagonista || (leal === antagonista && leal > 0)) {
+        return "leal";
+    } else if (antagonista > leal && antagonista > neutra) {
         return "antagonista";
+    } else {
+        return "neutra"; // Retorna neutra se todas as condições acima não forem atendidas
     }
 }
-
-
-
-
